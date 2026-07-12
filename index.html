@@ -82,7 +82,11 @@ const firebaseConfig = {
     appId: "1:719882687537:web:91e650f1297c6429eb7110"
 };
 
-const OTP = "9981";
+const OTPS = [
+    "9981",   // Your Laptop
+    "7788",   // Your Phone
+    "5566"    // LokYee's Phone
+];
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -96,79 +100,68 @@ const msg = document.getElementById("msg");
 const fp = await FingerprintJS.load();
 const { visitorId } = await fp.get();
 
-const deviceRef = doc(db, "voucher", "device");
-
 async function showVoucher() {
     loginScreen.classList.add("hidden");
     voucherCard.classList.remove("hidden");
     voucherCard.classList.add("flex");
 }
 
-// ===== Auto Login =====
-try {
-    const snapshot = await getDoc(deviceRef);
+// ================= AUTO LOGIN =================
 
-    if (snapshot.exists()) {
-        const data = snapshot.data();
+for (const otp of OTPS) {
 
-        if (data.deviceId === visitorId) {
-            await showVoucher();
-        }
+    const ref = doc(db, "voucher", otp);
+    const snap = await getDoc(ref);
+
+    if (
+        snap.exists() &&
+        snap.data().deviceId === visitorId
+    ) {
+        showVoucher();
+        break;
     }
-} catch (e) {
-    console.error(e);
 }
 
-// ===== Verify OTP =====
+// ================= VERIFY =================
+
 verifyBtn.addEventListener("click", async () => {
 
     msg.textContent = "";
 
-    if (otpInput.value.trim() !== OTP) {
-        msg.textContent = "Oops! That's the wrong code.";
+    const enteredOTP = otpInput.value.trim();
+
+    if (!OTPS.includes(enteredOTP)) {
+        msg.textContent = "Incorrect OTP.";
         return;
     }
 
-    try {
+    const ref = doc(db, "voucher", enteredOTP);
 
-        const snapshot = await getDoc(deviceRef);
+    const snap = await getDoc(ref);
 
-        // First device
-        if (!snapshot.exists()) {
+    // First time this OTP is used
+    if (!snap.exists()) {
 
-            await setDoc(deviceRef, {
-                deviceId: visitorId,
-                claimedAt: new Date().toISOString(),
-                userAgent: navigator.userAgent
-            });
+        await setDoc(ref, {
+            deviceId: visitorId,
+            claimedAt: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        });
 
-            await showVoucher();
-            return;
-        }
-
-        // Same device
-        if (snapshot.data().deviceId === visitorId) {
-
-            await showVoucher();
-            return;
-        }
-
-        // Different device
-       // Different device but correct OTP
-await setDoc(deviceRef, {
-    deviceId: visitorId,
-    claimedAt: new Date().toISOString(),
-    userAgent: navigator.userAgent
-});
-
-return showVoucher();
-
-    } catch (e) {
-
-        console.error(e);
-        msg.textContent = "Something went wrong. Please try again.";
-
+        showVoucher();
+        return;
     }
+
+    // Same device
+    if (snap.data().deviceId === visitorId) {
+
+        showVoucher();
+        return;
+    }
+
+    // OTP already belongs to another device
+    msg.textContent =
+        "This OTP has already been activated on another device.";
 
 });
 </script>
