@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Treat for LokYee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fae8ff 100%);
+            min-height: 100vh;
+        }
+
+        .pink-title {
+            font-family: 'Dancing Script', cursive;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center p-4">
+
+    <!-- Voucher Card -->
+    <div
+        class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-[0_20px_50px_rgba(219,39,119,0.15)] border border-pink-100 relative overflow-hidden">
+
+        <!-- Decorative elements -->
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-100 rounded-full blur-2xl opacity-60"></div>
+
+        <!-- To / From Section -->
+        <div class="flex justify-between text-[10px] font-bold text-pink-400 mb-8 uppercase tracking-widest">
+            <div>To: <span class="text-pink-600 border-b border-pink-200">LokYee</span></div>
+            <div>From: <span class="text-pink-600 border-b border-pink-200">Yi Hong</span></div>
+        </div>
+
+        <div class="text-center mb-8">
+            <h2 class="text-[10px] uppercase tracking-[0.2em] text-pink-400 mb-2">Exclusive Voucher</h2>
+            <h1 class="pink-title text-5xl text-pink-600 leading-tight">Special Treatment</h1>
+        </div>
+
+        <!-- Centered List Section (No Animation) -->
+        <div class="mb-8">
+            <p class="text-[10px] text-gray-400 text-center uppercase font-bold tracking-widest mb-4">What's Included
+            </p>
+            <div class="text-center space-y-2">
+                <p class="text-pink-500 font-medium">Priority Treatment</p>
+                <p class="text-pink-500 font-medium">One Meal</p>
+                <p class="text-pink-500 font-medium">Coffee or Dessert</p>
+
+                <p class="text-pink-500 font-medium">Good Company</p>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form action="https://formspree.io/f/xvzeplnk" method="POST">
+            <input type="hidden" name="Voucher_Type" value="Special Treatment for LokYee">
+            <button type="submit"
+                class="w-full bg-pink-500 text-white py-4 rounded-2xl transition-all shadow-lg shadow-pink-200 font-bold text-sm tracking-wide">
+                REDEEM MY TREAT
+            </button>
+        </form>
+
+        <!-- Refined Footer -->
+        <div class="mt-8 text-center text-[8px] text-pink-300 uppercase tracking-tighter space-y-1">
+            <p>Valid until you decide to use it • Non-transferable</p>
+            <p>Subject to my availability, but I'll always try my best</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
