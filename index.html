@@ -154,8 +154,14 @@ verifyBtn.addEventListener("click", async () => {
         }
 
         // Different device
-        msg.textContent =
-            "This voucher has already been claimed on another device.";
+       // Different device but correct OTP
+await setDoc(deviceRef, {
+    deviceId: visitorId,
+    claimedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent
+});
+
+return showVoucher();
 
     } catch (e) {
 
