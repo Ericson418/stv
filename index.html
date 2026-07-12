@@ -80,6 +80,8 @@ import {
     setDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+  import FingerprintJS from "https://openfpcdn.io/fingerprintjs/v4";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCT8qDJS08bes2OJ0WOGinPWTBwSiTz7SA",
   authDomain: "stvoucher-a4d4b.firebaseapp.com",
@@ -92,6 +94,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+ const fp = await FingerprintJS.load();
+const result = await fp.get();
+
+console.log(result.visitorId);
 
 console.log("Firebase Connected!");
 
