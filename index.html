@@ -104,6 +104,13 @@ const deviceRef = doc(db, "voucher", "device");
 
 const snapshot = await getDoc(deviceRef);
 
+console.log("Document exists:", snapshot.exists());
+
+if (snapshot.exists()) {
+    console.log("Saved device:", snapshot.data().deviceId);
+    console.log("Current device:", result.visitorId);
+}
+
 if (!snapshot.exists()) {
 
     await setDoc(deviceRef, {
