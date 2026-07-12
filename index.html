@@ -69,6 +69,27 @@
             <p>Subject to my availability, but I'll always try my best</p>
         </div>
     </div>
+    <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    // Paste your firebaseConfig here
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("Firebase Connected!");
+
+</script>
 
 </body>
 
