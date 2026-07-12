@@ -13,7 +13,6 @@ body{font-family:'Quicksand',sans-serif;background:linear-gradient(135deg,#fdf2f
 </head>
 <body>
 <div class="min-h-screen flex items-center justify-center p-4">
-
 <div id="loginScreen" class="w-full flex justify-center">
 <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl">
 <h1 class="pink-title text-4xl text-center text-pink-600">Special Surprise</h1>
@@ -26,30 +25,15 @@ body{font-family:'Quicksand',sans-serif;background:linear-gradient(135deg,#fdf2f
 
 <div id="voucherCard" class="hidden w-full justify-center">
 <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl border border-pink-100">
-<div class="flex justify-between text-[10px] font-bold text-pink-400 mb-8 uppercase">
-<div>To: <span class="text-pink-600">LokYee</span></div>
-<div>From: <span class="text-pink-600">Yi Hong</span></div>
-</div>
-
-<div class="text-center mb-8">
-<h2 class="text-[10px] uppercase tracking-[0.2em] text-pink-400">Exclusive Voucher</h2>
-<h1 class="pink-title text-5xl text-pink-600">Special Treatment</h1>
-</div>
-
-<div class="text-center space-y-2 mb-8">
-<p class="text-pink-500">Priority Treatment</p>
-<p class="text-pink-500">One Meal</p>
-<p class="text-pink-500">Coffee or Dessert</p>
-<p class="text-pink-500">Good Company</p>
-</div>
-
+<div class="text-center">
+<h1 class="pink-title text-5xl text-pink-600 mb-6">Special Treatment</h1>
 <form action="https://formspree.io/f/xvzeplnk" method="POST">
 <input type="hidden" name="Voucher_Type" value="Special Treatment for LokYee">
 <button class="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold">REDEEM MY TREAT</button>
 </form>
 </div>
 </div>
-
+</div>
 </div>
 
 <script type="module">
@@ -66,7 +50,7 @@ messagingSenderId:"719882687537",
 appId:"1:719882687537:web:91e650f1297c6429eb7110"
 };
 
-const OTP="89";
+const OTP="123456";
 
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
@@ -80,17 +64,20 @@ const msg=document.getElementById("msg");
 const fp=await FingerprintJS.load();
 const {visitorId}=await fp.get();
 
-const deviceRef=doc(db,"voucher","device");
+const ref=doc(db,"voucher","device");
+const snap=await getDoc(ref);
 
-// Auto login for registered device
-const existing=await getDoc(deviceRef);
-if(existing.exists() && existing.data().deviceId===visitorId){
-    loginScreen.classList.add("hidden");
-    voucherCard.classList.remove("hidden");
-    voucherCard.classList.add("flex");
+// trusted device -> skip OTP forever
+if(snap.exists()){
+    const data=snap.data();
+    if(data.deviceId===visitorId){
+        loginScreen.classList.add("hidden");
+        voucherCard.classList.remove("hidden");
+        voucherCard.classList.add("flex");
+    }
 }
 
-verifyBtn.addEventListener("click", async()=>{
+verifyBtn.addEventListener("click",async()=>{
 
     msg.textContent="";
 
@@ -99,9 +86,21 @@ verifyBtn.addEventListener("click", async()=>{
         return;
     }
 
-    // Correct OTP always authorizes this device
-    await setDoc(deviceRef,{
+    const current=await getDoc(ref);
+
+    // OTP already consumed by another device
+    if(current.exists()){
+        const data=current.data();
+
+        if(data.otpUsed && data.deviceId!==visitorId){
+            msg.textContent="This OTP has already been used.";
+            return;
+        }
+    }
+
+    await setDoc(ref,{
         deviceId:visitorId,
+        otpUsed:true,
         claimedAt:new Date().toISOString(),
         userAgent:navigator.userAgent
     });
