@@ -12,14 +12,12 @@ body{font-family:'Quicksand',sans-serif;background:linear-gradient(135deg,#fdf2f
 </style>
 </head>
 <body>
-
 <div class="min-h-screen flex items-center justify-center p-4">
 
 <div id="loginScreen" class="w-full flex justify-center">
 <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl">
 <h1 class="pink-title text-4xl text-center text-pink-600">Special Surprise</h1>
 <p class="text-center mt-3 text-gray-500">Enter the OTP I sent you.</p>
-
 <input id="otpInput" class="w-full border rounded-xl p-3 mt-6" placeholder="OTP">
 <button id="verifyBtn" class="w-full mt-4 bg-pink-500 text-white p-3 rounded-xl">Verify</button>
 <p id="msg" class="text-center text-red-500 mt-3"></p>
@@ -47,14 +45,8 @@ body{font-family:'Quicksand',sans-serif;background:linear-gradient(135deg,#fdf2f
 
 <form action="https://formspree.io/f/xvzeplnk" method="POST">
 <input type="hidden" name="Voucher_Type" value="Special Treatment for LokYee">
-<button class="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold">
-REDEEM MY TREAT
-</button>
+<button class="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold">REDEEM MY TREAT</button>
 </form>
-
-<div class="mt-8 text-center text-[8px] text-pink-300">
-Valid until you decide to use it • Non-transferable
-</div>
 </div>
 </div>
 
@@ -74,7 +66,7 @@ messagingSenderId:"719882687537",
 appId:"1:719882687537:web:91e650f1297c6429eb7110"
 };
 
-const OTP="4896";
+const OTP="123456";
 
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
@@ -89,42 +81,35 @@ const fp=await FingerprintJS.load();
 const {visitorId}=await fp.get();
 
 const deviceRef=doc(db,"voucher","device");
-const snapshot=await getDoc(deviceRef);
 
-// Auto-login for registered device
-if(snapshot.exists() && snapshot.data().deviceId===visitorId){
+// Auto login for registered device
+const existing=await getDoc(deviceRef);
+if(existing.exists() && existing.data().deviceId===visitorId){
     loginScreen.classList.add("hidden");
     voucherCard.classList.remove("hidden");
     voucherCard.classList.add("flex");
 }
 
-verifyBtn.addEventListener("click", async ()=>{
+verifyBtn.addEventListener("click", async()=>{
 
     msg.textContent="";
 
     if(otpInput.value.trim()!==OTP){
-        msg.textContent="Oops! That's the wrong code.";
+        msg.textContent="Incorrect OTP";
         return;
     }
 
-    const snap=await getDoc(deviceRef);
-
-    if(!snap.exists()){
-        await setDoc(deviceRef,{
-            deviceId:visitorId,
-            claimedAt:new Date().toISOString(),
-            userAgent:navigator.userAgent
-        });
-    }else if(snap.data().deviceId!==visitorId){
-        msg.textContent="This voucher has already been claimed on another device.";
-        return;
-    }
+    // Correct OTP always authorizes this device
+    await setDoc(deviceRef,{
+        deviceId:visitorId,
+        claimedAt:new Date().toISOString(),
+        userAgent:navigator.userAgent
+    });
 
     loginScreen.classList.add("hidden");
     voucherCard.classList.remove("hidden");
     voucherCard.classList.add("flex");
 });
 </script>
-
 </body>
 </html>
