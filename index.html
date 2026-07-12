@@ -4,163 +4,126 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Special Treat for LokYee</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;600&display=swap');
-
 body{
     font-family:'Quicksand',sans-serif;
-    background:linear-gradient(135deg,#fdf2f8 0%,#fae8ff 100%);
-    min-height:100vh;
+    background:linear-gradient(135deg,#fdf2f8,#fae8ff);
 }
-.pink-title{
-    font-family:'Dancing Script',cursive;
-}
+.pink-title{font-family:'Dancing Script',cursive;}
 </style>
 </head>
 
-<body class="flex items-center justify-center p-4">
+<body>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="w-full flex justify-center">
-    <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl">
-        <h1 class="pink-title text-4xl text-center text-pink-600">Special Surprise</h1>
-        <p class="text-center mt-3 text-gray-500">Enter the OTP I sent you.</p>
+<div class="min-h-screen flex items-center justify-center p-4">
 
-        <input id="otpInput" class="w-full border rounded-xl p-3 mt-6" placeholder="OTP">
+    <div id="loginScreen" class="w-full flex justify-center">
+        <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl">
+            <h1 class="pink-title text-4xl text-center text-pink-600">Special Surprise</h1>
+            <p class="text-center mt-3 text-gray-500">Enter the OTP I sent you.</p>
 
-        <button id="verifyBtn"
-            class="w-full mt-4 bg-pink-500 text-white p-3 rounded-xl">
-            Verify
-        </button>
+            <input id="otpInput" class="w-full border rounded-xl p-3 mt-6" placeholder="OTP">
+            <button id="verifyBtn" class="w-full mt-4 bg-pink-500 text-white p-3 rounded-xl">
+                Verify
+            </button>
 
-        <p id="msg" class="text-center text-red-500 mt-3"></p>
+            <p id="msg" class="text-center text-red-500 mt-3"></p>
+        </div>
     </div>
-</div>
 
-<!-- VOUCHER -->
-<div id="voucherCard"
-    class="hidden w-full flex justify-center">
+    <div id="voucherCard" class="hidden w-full justify-center">
+        <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-xl border border-pink-100 relative overflow-hidden">
 
-    <div class="bg-white max-w-sm w-full p-8 rounded-3xl shadow-[0_20px_50px_rgba(219,39,119,0.15)] border border-pink-100 relative overflow-hidden">
+            <div class="flex justify-between text-[10px] font-bold text-pink-400 mb-8 uppercase tracking-widest">
+                <div>To: <span class="text-pink-600">LokYee</span></div>
+                <div>From: <span class="text-pink-600">Yi Hong</span></div>
+            </div>
 
-        <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-100 rounded-full blur-2xl opacity-60"></div>
+            <div class="text-center mb-8">
+                <h2 class="text-[10px] uppercase tracking-[0.2em] text-pink-400 mb-2">Exclusive Voucher</h2>
+                <h1 class="pink-title text-5xl text-pink-600">Special Treatment</h1>
+            </div>
 
-        <div class="flex justify-between text-[10px] font-bold text-pink-400 mb-8 uppercase tracking-widest">
-            <div>To: <span class="text-pink-600 border-b border-pink-200">LokYee</span></div>
-            <div>From: <span class="text-pink-600 border-b border-pink-200">Yi Hong</span></div>
-        </div>
+            <div class="text-center space-y-2 mb-8">
+                <p class="text-pink-500">Priority Treatment</p>
+                <p class="text-pink-500">One Meal</p>
+                <p class="text-pink-500">Coffee or Dessert</p>
+                <p class="text-pink-500">Good Company</p>
+            </div>
 
-        <div class="text-center mb-8">
-            <h2 class="text-[10px] uppercase tracking-[0.2em] text-pink-400 mb-2">Exclusive Voucher</h2>
-            <h1 class="pink-title text-5xl text-pink-600 leading-tight">Special Treatment</h1>
-        </div>
+            <form action="https://formspree.io/f/xvzeplnk" method="POST">
+                <input type="hidden" name="Voucher_Type" value="Special Treatment for LokYee">
+                <button class="w-full bg-pink-500 text-white py-4 rounded-2xl font-bold">
+                    REDEEM MY TREAT
+                </button>
+            </form>
 
-        <div class="mb-8">
-            <p class="text-[10px] text-gray-400 text-center uppercase font-bold tracking-widest mb-4">
-                What's Included
-            </p>
-
-            <div class="text-center space-y-2">
-                <p class="text-pink-500 font-medium">Priority Treatment</p>
-                <p class="text-pink-500 font-medium">One Meal</p>
-                <p class="text-pink-500 font-medium">Coffee or Dessert</p>
-                <p class="text-pink-500 font-medium">Good Company</p>
+            <div class="mt-8 text-center text-[8px] text-pink-300">
+                Valid until you decide to use it • Non-transferable
             </div>
         </div>
-
-        <form action="https://formspree.io/f/xvzeplnk" method="POST">
-            <input type="hidden" name="Voucher_Type" value="Special Treatment for LokYee">
-
-            <button type="submit"
-                class="w-full bg-pink-500 text-white py-4 rounded-2xl shadow-lg shadow-pink-200 font-bold">
-                REDEEM MY TREAT
-            </button>
-        </form>
-
-        <div class="mt-8 text-center text-[8px] text-pink-300 uppercase tracking-tighter space-y-1">
-            <p>Valid until you decide to use it • Non-transferable</p>
-            <p>Subject to my availability, but I'll always try my best</p>
-        </div>
-
     </div>
+
 </div>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 import FingerprintJS from "https://openfpcdn.io/fingerprintjs/v4";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCT8qDJS08bes2OJ0WOGinPWTBwSiTz7SA",
-  authDomain: "stvoucher-a4d4b.firebaseapp.com",
-  projectId: "stvoucher-a4d4b",
-  storageBucket: "stvoucher-a4d4b.firebasestorage.app",
-  messagingSenderId: "719882687537",
-  appId: "1:719882687537:web:91e650f1297c6429eb7110",
-  measurementId: "G-5CM62PDM3Q"
+const firebaseConfig={
+apiKey:"AIzaSyCT8qDJS08bes2OJ0WOGinPWTBwSiTz7SA",
+authDomain:"stvoucher-a4d4b.firebaseapp.com",
+projectId:"stvoucher-a4d4b",
+storageBucket:"stvoucher-a4d4b.firebasestorage.app",
+messagingSenderId:"719882687537",
+appId:"1:719882687537:web:91e650f1297c6429eb7110"
 };
 
-const OTP = "123456";
+const OTP="123456";
 
-const loginScreen = document.getElementById("loginScreen");
-const voucherCard = document.getElementById("voucherCard");
-const otpInput = document.getElementById("otpInput");
-const verifyBtn = document.getElementById("verifyBtn");
-const msg = document.getElementById("msg");
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const fp=await FingerprintJS.load();
+const {visitorId}=await fp.get();
 
-const fp = await FingerprintJS.load();
-const result = await fp.get();
+const loginScreen=document.getElementById("loginScreen");
+const voucherCard=document.getElementById("voucherCard");
+const otpInput=document.getElementById("otpInput");
+const verifyBtn=document.getElementById("verifyBtn");
+const msg=document.getElementById("msg");
 
-verifyBtn.addEventListener("click", async () => {
+verifyBtn.addEventListener("click", async()=>{
 
-    msg.textContent = "";
+    msg.textContent="";
 
-    if (otpInput.value.trim() !== OTP) {
-        msg.textContent = "Oops! That's the wrong code.";
+    if(otpInput.value.trim()!==OTP){
+        msg.textContent="Oops! That's the wrong code.";
         return;
     }
 
-    const deviceRef = doc(db, "voucher", "device");
-    const snapshot = await getDoc(deviceRef);
+    const ref=doc(db,"voucher","device");
+    const snap=await getDoc(ref);
 
-    if (!snapshot.exists()) {
-
-        await setDoc(deviceRef,{
-            deviceId: result.visitorId,
-            claimedAt: new Date().toISOString(),
-            userAgent: navigator.userAgent
+    if(!snap.exists()){
+        await setDoc(ref,{
+            deviceId:visitorId,
+            claimedAt:new Date().toISOString(),
+            userAgent:navigator.userAgent
         });
-
-    } else {
-
-        const savedDevice = snapshot.data().deviceId;
-
-        if(savedDevice !== result.visitorId){
-            msg.textContent = "This voucher has already been claimed on another device.";
-            return;
-        }
+    }else if(snap.data().deviceId!==visitorId){
+        msg.textContent="This voucher has already been claimed on another device.";
+        return;
     }
 
     loginScreen.classList.add("hidden");
+
     voucherCard.classList.remove("hidden");
     voucherCard.classList.add("flex");
-
 });
-
-console.log("Firebase Connected!");
-
 </script>
 
 </body>
