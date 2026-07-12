@@ -77,6 +77,24 @@
         </div>
     </div>
     <script type="module">
+        // Add these variables at the top of your script
+const loginScreen = document.getElementById('loginScreen');
+const voucherCard = document.getElementById('voucherCard');
+const otpInput = document.getElementById('otpInput');
+const verifyBtn = document.getElementById('verifyBtn');
+const msg = document.getElementById('msg');
+
+// Button Click Event
+verifyBtn.addEventListener('click', () => {
+    if (otpInput.value === OTP) {
+        // Correct OTP: Hide login, show voucher
+        loginScreen.classList.add('hidden');
+        voucherCard.classList.remove('hidden');
+    } else {
+        // Incorrect OTP: Show error
+        msg.textContent = "Oops! That's the wrong code.";
+    }
+});
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
