@@ -100,6 +100,26 @@ const result = await fp.get();
 
 console.log(result.visitorId);
 
+const deviceRef = doc(db, "voucher", "device");
+
+const snapshot = await getDoc(deviceRef);
+
+if (!snapshot.exists()) {
+
+    await setDoc(deviceRef, {
+        deviceId: result.visitorId,
+        claimedAt: new Date().toISOString(),
+        userAgent: navigator.userAgent
+    });
+
+    console.log("Device Registered");
+
+} else {
+
+    console.log(snapshot.data());
+
+}
+
 console.log("Firebase Connected!");
 
 </script>
