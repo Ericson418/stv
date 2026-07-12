@@ -116,7 +116,32 @@ if (!snapshot.exists()) {
 
 } else {
 
-    console.log(snapshot.data());
+    const savedDevice = snapshot.data().deviceId;
+
+    if (savedDevice === result.visitorId) {
+
+        console.log("Welcome back!");
+
+    } else {
+
+        document.body.innerHTML = `
+            <div style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                background:#fff5f8;
+                font-family:sans-serif;
+                text-align:center;
+            ">
+                <div>
+                    <h1>This voucher has already been claimed.</h1>
+                    <p>This page can only be viewed from the registered device.</p>
+                </div>
+            </div>
+        `;
+
+    }
 
 }
 
